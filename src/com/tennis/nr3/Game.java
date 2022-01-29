@@ -1,4 +1,4 @@
-package com.tennis;
+package com.tennis.nr3;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -90,39 +90,32 @@ public class Game {
     }
 
     private void player2Score(String playerScored, boolean player1ScoreIs40, boolean player2ScoreIs40, String player1CurrentScore, String player2CurrentScore) {
-        endOfGame = false;
-        if (!player1ScoreIs40) {
-            if (player2ScoreIs40 && playerScored.equals("B")) {
-                this.player2Score = "game";
+        if(playerScored.equals(player2Name)) {
+            endOfGame = false;
+            if (!player1ScoreIs40) {
+                if (player2ScoreIs40) {
+                    this.player2Score = "game";
+                } else {
+                    this.player2Score = scores.get(player2CurrentScore);
+                }
                 this.player1Score = player1CurrentScore;
             } else {
-                if (playerScored.equals("A")) {
-                    this.player1Score = scores.get(player1CurrentScore);
-                    this.player2Score = player2CurrentScore;
+                if (player2ScoreIs40) {
+                    if (player1CurrentScore.equals("A")) {
+                        this.player2Score = "40";
+                        this.player1Score = "40";
+                    } else {
+                        this.player2Score = scores.get(player2CurrentScore);
+                        this.player1Score = player1CurrentScore;
+                    }
                 } else {
-                    this.player2Score = scores.get(player2CurrentScore);
-                    this.player1Score = player1CurrentScore;
-                }
-            }
-        } else {
-            if (!player2ScoreIs40) {
-                if (player1CurrentScore.equals("A")) {
-                    this.player1Score = "40";
-                    this.player2Score = "40";
-                } else {
-                    this.player1Score = scores.get(player1CurrentScore);
-                    this.player2Score = player2CurrentScore;
-                }
-            } else {
-                if (this.player1Score.equals("A") && playerScored.equals("B")) {
-                    this.player1Score = "40";
-                    this.player2Score = "40";
-                } else if (playerScored.equals("A")) {
-                    this.player1Score = scores.get(player1CurrentScore);
-                    this.player2Score = "40";
-                } else {
-                    this.player2Score = scores.get(player2CurrentScore);
-                    this.player1Score = player1CurrentScore;
+                    if (player1CurrentScore.equals("A")) {
+                        this.player1Score = scores.get(player1CurrentScore);
+                        this.player2Score = "40";
+                    } else {
+                        this.player2Score = scores.get(player2CurrentScore);
+                        this.player1Score = player1CurrentScore;
+                    }
                 }
             }
         }
@@ -163,7 +156,7 @@ public class Game {
 
     public StringBuilder displayScore() throws IOException {
         if (endOfGame) {
-            completedSetScores.forEach((key, value) -> sb.append(value).append(" "));
+            completedSetScores.forEach((key, value) -> sb.append(value));
             sb.append(System.lineSeparator());
         } else if ((!player1Score.equals("0") || !player2Score.equals("0")) || (player1WinCount != 0 || player2WinCount != 0)) {
             completedSetScores.forEach((key, value) -> sb.append(value).append(" "));
